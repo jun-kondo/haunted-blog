@@ -7,7 +7,9 @@ class Blog < ApplicationRecord
 
   validates :title, :content, presence: true
 
-  scope :published, -> { where('secret = FALSE') }
+  scope :my_blogs, ->(user) { Blog.where(user_id: user.id) }
+
+  scope :published, -> { where(secret: false) }
 
   scope :search, lambda { |term|
     if term.present?
