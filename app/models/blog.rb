@@ -7,7 +7,7 @@ class Blog < ApplicationRecord
 
   validates :title, :content, presence: true
 
-  scope :my_blogs, ->(user) { Blog.where(user_id: user.id) }
+  scope :owned, ->(user) { where(user:) }
 
   scope :published, -> { where(secret: false) }
 
