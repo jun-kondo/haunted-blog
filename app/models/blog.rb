@@ -12,10 +12,9 @@ class Blog < ApplicationRecord
   scope :published, -> { where(secret: false) }
 
   scope :search, lambda { |term|
-    term = '' if term.nil? || term.strip.empty?
-    sanitized_term = sanitize_sql_like(term)
-    title_query = content_query = "%#{sanitized_term}%"
-    where('title LIKE ? OR content LIKE ?', title_query, content_query)
+    sanitized_term = sanitize_sql_like(term.to_s)
+    term_with_wildcard = "%#{sanitized_term}%"
+    where('title LIKE ? OR content LIKE ?', term_with_wildcard, term_with_wildcard)
   }
 
   scope :default_order, -> { order(id: :desc) }
