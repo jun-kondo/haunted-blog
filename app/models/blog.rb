@@ -13,8 +13,7 @@ class Blog < ApplicationRecord
 
   scope :search, lambda { |term|
     sanitized_term = sanitize_sql_like(term.to_s)
-    term_with_wildcard = "%#{sanitized_term}%"
-    where('title LIKE ? OR content LIKE ?', term_with_wildcard, term_with_wildcard)
+    where('title LIKE ? OR content LIKE ?', "%#{sanitized_term}%", "%#{sanitized_term}%")
   }
 
   scope :default_order, -> { order(id: :desc) }
